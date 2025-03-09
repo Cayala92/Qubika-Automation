@@ -32,11 +32,21 @@ test.describe('Landing Page E2E Tests', () => {
         await landingPage.clickContactUsButton();      
         await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBe(true);
         await validateFormFieldsVisibility(contactUsFormPage);
+        await contactUsFormPage.clickSubmitButton();
+        await validateErrorMessagesOnMandatoryFields(contactUsFormPage);
     });
 
     const validateFormFieldsVisibility = async (contactUsFormPage: ContactUsFormPage) => {
         await expect(contactUsFormPage.isNameFieldVisible()).resolves.toBe(true);
         await expect(contactUsFormPage.isEmailFieldVisible()).resolves.toBe(true);
         await expect(contactUsFormPage.isSubmitButtonVisible()).resolves.toBe(true);
+    };
+
+    const validateErrorMessagesOnMandatoryFields = async (contactUsFormPage: ContactUsFormPage) => {
+        await expect(contactUsFormPage.isNameFieldErrorVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isLastNameFieldErrorVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isEmailFieldErrorVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isCompanyNameFieldErrorVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isContactTypeFieldErrorVisible()).resolves.toBe(true);
     };
 });
