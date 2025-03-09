@@ -34,6 +34,8 @@ test.describe('Landing Page E2E Tests', () => {
         await validateFormFieldsVisibility(contactUsFormPage);
         await contactUsFormPage.clickSubmitButton();
         await validateErrorMessagesOnMandatoryFields(contactUsFormPage);
+        await contactUsFormPage.writeInNameField("Test Name");
+        await validateMandatoryFieldsErrorMessagesExceptName();
     });
 
     const validateFormFieldsVisibility = async (contactUsFormPage: ContactUsFormPage) => {
@@ -49,4 +51,12 @@ test.describe('Landing Page E2E Tests', () => {
         await expect(contactUsFormPage.isCompanyNameFieldErrorVisible()).resolves.toBe(true);
         await expect(contactUsFormPage.isContactTypeFieldErrorVisible()).resolves.toBe(true);
     };
+
+    const validateMandatoryFieldsErrorMessagesExceptName = async () => {
+        await expect(contactUsFormPage.isNameFieldErrorVisible()).resolves.toBe(false);
+        await expect(contactUsFormPage.isLastNameFieldErrorVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isEmailFieldErrorVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isCompanyNameFieldErrorVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isContactTypeFieldErrorVisible()).resolves.toBe(true);
+      };
 });

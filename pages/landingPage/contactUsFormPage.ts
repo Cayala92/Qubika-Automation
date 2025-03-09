@@ -18,13 +18,13 @@ export class ContactUsFormPage {
         this.contactUsModal = page.locator('.contact-us-modal.show');
         this.nameField = page.locator('input[name="firstname"]');
         this.emailField = page.locator('input[name="email"]');
-        this.submitButton = page.locator('input[type="submit"][value="Submit"]');        
-        this.nameFieldError = page.getByRole('group').filter({ hasText: 'First Name*Please complete' }).locator('label').nth(1);
-        this.lastNameFieldError = page.getByRole('group').filter({ hasText: 'First Name*Please complete' }).locator('label').nth(3);
-        this.emailFieldError = page.getByRole('group').filter({ hasText: 'Email*Please complete this' }).locator('label').nth(1);
-        this.companyNameFieldError = page.getByRole('group').filter({ hasText: 'Email*Please complete this' }).locator('label').nth(3);
-        this.contactTypeFieldError = page.getByRole('group').filter({ hasText: 'Contact type*Please' }).locator('label').nth(1);
-        this.messageFieldError = page.getByRole('group').filter({ hasText: 'Message*Please complete this' }).locator('label').nth(1);
+        this.submitButton = page.locator('input[type="submit"][value="Submit"]'); 
+        this.nameFieldError = page.locator('.hs_firstname .hs-error-msgs');
+        this.lastNameFieldError = page.locator('.hs_lastname .hs-error-msgs');
+        this.emailFieldError = page.locator('.hs_email .hs-error-msgs');
+        this.companyNameFieldError = page.locator('.hs_company .hs-error-msgs');
+        this.contactTypeFieldError = page.locator('.hs_contact_type .hs-error-msgs'); 
+        this.messageFieldError = page.locator('.hs_message .hs-error-msgs'); 
     }
 
     async isContactUsModalVisible(): Promise<boolean> {
@@ -70,5 +70,9 @@ export class ContactUsFormPage {
     async isMessageFieldErrorVisible(): Promise<boolean> {
         return await this.messageFieldError.isVisible();
     }
+
+    async writeInNameField(text: string) {
+        await this.nameField.fill(text);
+    } 
     
 }
