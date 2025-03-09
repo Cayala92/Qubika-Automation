@@ -36,6 +36,8 @@ test.describe('Landing Page E2E Tests', () => {
         await validateErrorMessagesOnMandatoryFields(contactUsFormPage);
         await contactUsFormPage.writeInNameField("Test Name");
         await validateMandatoryFieldsErrorMessagesExceptName();
+        await contactUsFormPage.clickCloseIcon();
+        await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBe(false);
     });
 
     const validateFormFieldsVisibility = async (contactUsFormPage: ContactUsFormPage) => {

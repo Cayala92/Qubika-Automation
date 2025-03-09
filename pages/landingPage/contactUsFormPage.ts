@@ -12,6 +12,7 @@ export class ContactUsFormPage {
     readonly companyNameFieldError : Locator;
     readonly contactTypeFieldError : Locator;
     readonly messageFieldError : Locator;
+    readonly closeIcon : Locator;
 
     constructor(page: Page) {
         this.page = page;  
@@ -24,7 +25,8 @@ export class ContactUsFormPage {
         this.emailFieldError = page.locator('.hs_email .hs-error-msgs');
         this.companyNameFieldError = page.locator('.hs_company .hs-error-msgs');
         this.contactTypeFieldError = page.locator('.hs_contact_type .hs-error-msgs'); 
-        this.messageFieldError = page.locator('.hs_message .hs-error-msgs'); 
+        this.messageFieldError = page.locator('.hs_message .hs-error-msgs');
+        this.closeIcon = page.locator('.contact-us-modal.show  .close-modal');
     }
 
     async isContactUsModalVisible(): Promise<boolean> {
@@ -73,6 +75,10 @@ export class ContactUsFormPage {
 
     async writeInNameField(text: string) {
         await this.nameField.fill(text);
-    } 
+    }
+
+    async clickCloseIcon() : Promise<void> {
+        await this.closeIcon.click();
+    }
     
 }
