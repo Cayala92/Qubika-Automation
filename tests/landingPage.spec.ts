@@ -15,5 +15,15 @@ import { LandingPage } from '../pages/landingPage/landingPage'; // Import the La
  */
 
 test.describe('Landing Page E2E Tests', () => {
+    let landingPage: LandingPage;
 
+    test.beforeEach(async ({ page }) => {
+        landingPage = new LandingPage(page);
+    });
+
+    test('Should render the Qubika website and show the logo', async () => {
+        await landingPage.navigateToQubikaWebSite();
+        await expect(landingPage.getCurrentUrl()).resolves.toBe('https://qubika.com/');
+        await expect(landingPage.isLogoVisible()).resolves.toBe(true);
+    });
 });
