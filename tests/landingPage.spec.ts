@@ -24,45 +24,46 @@ test.describe('Landing Page E2E Tests', () => {
     });
 
     test('Contact Us form Validations', async () => {
-        let inputName = "Test Name";
+        const inputName = "Test Name";
+        const url = "https://qubika.com/";
         await landingPage.navigateToQubikaWebSite();
-        await expect(landingPage.getCurrentUrl()).resolves.toBe('https://qubika.com/');
-        await expect(landingPage.isLogoVisible()).resolves.toBe(true);
+        await expect(landingPage.getCurrentUrl()).resolves.toBe(url);
+        await expect(landingPage.isLogoVisible()).resolves.toBeTruthy();
         await landingPage.clickContactUsButton();      
-        await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBeTruthy();
         await validateFormFieldsVisibility(contactUsFormPage);
         await contactUsFormPage.clickSubmitButton();
         await validateErrorMessagesOnMandatoryFields(contactUsFormPage);
         await contactUsFormPage.writeInNameField(inputName);
         await validateMandatoryFieldsErrorMessagesExceptName();
         await contactUsFormPage.clickCloseIcon();
-        await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBe(false);
+        await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBeFalsy();
         await landingPage.clickContactUsButton();
-        await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBeTruthy();
         await validateMandatoryFieldsErrorMessagesExceptName();
         const nameFieldText = await contactUsFormPage.getNameFieldText();
         await expect(nameFieldText).toBe(inputName);
     });
 
     const validateFormFieldsVisibility = async (contactUsFormPage: ContactUsFormPage) => {
-        await expect(contactUsFormPage.isNameFieldVisible()).resolves.toBe(true);
-        await expect(contactUsFormPage.isEmailFieldVisible()).resolves.toBe(true);
-        await expect(contactUsFormPage.isSubmitButtonVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isNameFieldVisible()).resolves.toBeTruthy();
+        await expect(contactUsFormPage.isEmailFieldVisible()).resolves.toBeTruthy();
+        await expect(contactUsFormPage.isSubmitButtonVisible()).resolves.toBeTruthy();
     };
 
     const validateErrorMessagesOnMandatoryFields = async (contactUsFormPage: ContactUsFormPage) => {
-        await expect(contactUsFormPage.isNameFieldErrorVisible()).resolves.toBe(true);
-        await expect(contactUsFormPage.isLastNameFieldErrorVisible()).resolves.toBe(true);
-        await expect(contactUsFormPage.isEmailFieldErrorVisible()).resolves.toBe(true);
-        await expect(contactUsFormPage.isCompanyNameFieldErrorVisible()).resolves.toBe(true);
-        await expect(contactUsFormPage.isContactTypeFieldErrorVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isNameFieldErrorVisible()).resolves.toBeTruthy();
+        await expect(contactUsFormPage.isLastNameFieldErrorVisible()).resolves.toBeTruthy();
+        await expect(contactUsFormPage.isEmailFieldErrorVisible()).resolves.toBeTruthy();
+        await expect(contactUsFormPage.isCompanyNameFieldErrorVisible()).resolves.toBeTruthy();
+        await expect(contactUsFormPage.isContactTypeFieldErrorVisible()).resolves.toBeTruthy();
     };
 
     const validateMandatoryFieldsErrorMessagesExceptName = async () => {
-        await expect(contactUsFormPage.isNameFieldErrorVisible()).resolves.toBe(false);
-        await expect(contactUsFormPage.isLastNameFieldErrorVisible()).resolves.toBe(true);
-        await expect(contactUsFormPage.isEmailFieldErrorVisible()).resolves.toBe(true);
-        await expect(contactUsFormPage.isCompanyNameFieldErrorVisible()).resolves.toBe(true);
-        await expect(contactUsFormPage.isContactTypeFieldErrorVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isNameFieldErrorVisible()).resolves.toBeFalsy();
+        await expect(contactUsFormPage.isLastNameFieldErrorVisible()).resolves.toBeTruthy();
+        await expect(contactUsFormPage.isEmailFieldErrorVisible()).resolves.toBeTruthy();
+        await expect(contactUsFormPage.isCompanyNameFieldErrorVisible()).resolves.toBeTruthy();
+        await expect(contactUsFormPage.isContactTypeFieldErrorVisible()).resolves.toBeTruthy();
     };
 });
