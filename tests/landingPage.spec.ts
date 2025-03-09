@@ -1,5 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test'; 
 import { LandingPage } from '../pages/landingPage/landingPage'; // Import the Landing Page Page Object
+import { ContactUsFormPage } from '../pages/landingPage/contactUsFormPage'; // Import the Contact Us Form Page Object
+
 
 /**
  * TODO:
@@ -16,14 +18,25 @@ import { LandingPage } from '../pages/landingPage/landingPage'; // Import the La
 
 test.describe('Landing Page E2E Tests', () => {
     let landingPage: LandingPage;
+    let contactUsFormPage: ContactUsFormPage;
 
     test.beforeEach(async ({ page }) => {
-        landingPage = new LandingPage(page);
+        landingPage = new LandingPage(page);        
+        contactUsFormPage = new ContactUsFormPage(page);  
     });
 
-    test('Should render the Qubika website and show the logo', async () => {
+    test('Contact Us form Validations', async () => {
         await landingPage.navigateToQubikaWebSite();
         await expect(landingPage.getCurrentUrl()).resolves.toBe('https://qubika.com/');
         await expect(landingPage.isLogoVisible()).resolves.toBe(true);
+        await landingPage.clickContactUsButton();      
+        await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBe(true);
+        await validateFormFieldsVisibility(contactUsFormPage);
     });
+
+    const validateFormFieldsVisibility = async (contactUsFormPage: ContactUsFormPage) => {
+        await expect(contactUsFormPage.isNameFieldVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isEmailFieldVisible()).resolves.toBe(true);
+        await expect(contactUsFormPage.isSubmitButtonVisible()).resolves.toBe(true);
+    };
 });
