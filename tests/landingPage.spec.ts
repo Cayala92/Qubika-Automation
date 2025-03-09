@@ -1,10 +1,4 @@
-import { test, expect } from '@playwright/test'; 
-import { LandingPage } from '../pages/landingPage/landingPage'; // Import the Landing Page Page Object
-import { ContactUsFormPage } from '../pages/landingPage/contactUsFormPage'; // Import the Contact Us Form Page Object
-
-
 /**
- * TODO:
  * This E2E test file verifies the overall behavior of the Landing Page 
  * through interactions defined in the Page Object. 
  * 
@@ -16,6 +10,10 @@ import { ContactUsFormPage } from '../pages/landingPage/contactUsFormPage'; // I
  * the project grows.
  */
 
+import { test, expect } from '@playwright/test'; 
+import { LandingPage } from '../pages/landingPage/landingPage'; // Import the Landing Page Page Object
+import { ContactUsFormPage } from '../pages/landingPage/contactUsFormPage'; // Import the Contact Us Form Page Object
+
 test.describe('Landing Page E2E Tests', () => {
     let landingPage: LandingPage;
     let contactUsFormPage: ContactUsFormPage;
@@ -26,6 +24,7 @@ test.describe('Landing Page E2E Tests', () => {
     });
 
     test('Contact Us form Validations', async () => {
+        let inputName = "Test Name";
         await landingPage.navigateToQubikaWebSite();
         await expect(landingPage.getCurrentUrl()).resolves.toBe('https://qubika.com/');
         await expect(landingPage.isLogoVisible()).resolves.toBe(true);
@@ -34,10 +33,15 @@ test.describe('Landing Page E2E Tests', () => {
         await validateFormFieldsVisibility(contactUsFormPage);
         await contactUsFormPage.clickSubmitButton();
         await validateErrorMessagesOnMandatoryFields(contactUsFormPage);
-        await contactUsFormPage.writeInNameField("Test Name");
+        await contactUsFormPage.writeInNameField(inputName);
         await validateMandatoryFieldsErrorMessagesExceptName();
         await contactUsFormPage.clickCloseIcon();
         await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBe(false);
+        await landingPage.clickContactUsButton();
+        await expect(contactUsFormPage.isContactUsModalVisible()).resolves.toBe(true);
+        await validateMandatoryFieldsErrorMessagesExceptName();
+        const nameFieldText = await contactUsFormPage.getNameFieldText();
+        await expect(nameFieldText).toBe(inputName);
     });
 
     const validateFormFieldsVisibility = async (contactUsFormPage: ContactUsFormPage) => {
@@ -60,5 +64,5 @@ test.describe('Landing Page E2E Tests', () => {
         await expect(contactUsFormPage.isEmailFieldErrorVisible()).resolves.toBe(true);
         await expect(contactUsFormPage.isCompanyNameFieldErrorVisible()).resolves.toBe(true);
         await expect(contactUsFormPage.isContactTypeFieldErrorVisible()).resolves.toBe(true);
-      };
+    };
 });

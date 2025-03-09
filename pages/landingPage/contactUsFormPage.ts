@@ -80,5 +80,8 @@ export class ContactUsFormPage {
     async clickCloseIcon() : Promise<void> {
         await this.closeIcon.click();
     }
-    
+
+    async getNameFieldText(): Promise<string> {
+        return await this.nameField.inputValue();
+    }    
 }
